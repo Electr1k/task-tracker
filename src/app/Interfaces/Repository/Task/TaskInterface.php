@@ -2,6 +2,7 @@
 
 namespace App\Interfaces\Repository\Task;
 
+use App\Interfaces\Repository\Task\DTOs\DeleteDataInput;
 use App\Interfaces\Repository\Task\DTOs\IndexDataInput;
 use App\Interfaces\Repository\Task\DTOs\StoreDataInput;
 use App\Interfaces\Repository\Task\DTOs\TaskDTO;
@@ -17,4 +18,5 @@ interface TaskInterface
 
     public function update(TaskDTO $taskDTO): TaskDTO;
 
+    public function destroy(DeleteDataInput $taskDTO): bool;
 }

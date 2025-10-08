@@ -4,8 +4,10 @@ namespace App\Services\Task;
 
 use App\Interfaces\Repository\Task\DTOs\IndexDataInput as IndexRepositoryDTO;
 use App\Interfaces\Repository\Task\DTOs\StoreDataInput as StoreRepositoryDTO;
+use App\Interfaces\Repository\Task\DTOs\DeleteDataInput as DeleteRepositoryDTO;
 use App\Interfaces\Repository\Task\DTOs\TaskDTO as RepositoryTaskDTO;
 use App\Interfaces\Repository\Task\TaskInterface;
+use App\Services\Task\DTOs\DeleteDataInput;
 use App\Services\Task\DTOs\IndexDataInput;
 use App\Services\Task\DTOs\StoreDataInput;
 use App\Services\Task\DTOs\TaskDTO;
@@ -24,11 +26,25 @@ class TaskService
         return TaskDTO::collect($repositoryCollection);
     }
 
-    public function store(StoreDataInput $taskDTO): TaskDTO
+    public function store(StoreDataInput $dataInput): TaskDTO
     {
-        $repositoryDataInput = StoreRepositoryDTO::from($taskDTO);
+        $repositoryDataInput = StoreRepositoryDTO::from($dataInput);
         $dto = $this->repository->store($repositoryDataInput);
 
         return TaskDTO::from($dto);
+    }
+
+    public function update(TaskDTO $taskDTO): TaskDTO
+    {
+        $repositoryDataInput = RepositoryTaskDTO::from($taskDTO);
+        $dto = $this->repository->update($repositoryDataInput);
+
+        return TaskDTO::from($dto);
+    }
+
+    public function destroy(DeleteDataInput $dataInput): bool
+    {
+        $repositoryDataInput = DeleteRepositoryDTO::from($dataInput);
+        return $this->repository->destroy($repositoryDataInput);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Builders\Lot\TaskBuilder;
+use App\Builders\Task\TaskBuilder;
 use App\Enums\Status;
 use App\Traits\HasCustomBuilder;
 use Illuminate\Database\Eloquent\Model;

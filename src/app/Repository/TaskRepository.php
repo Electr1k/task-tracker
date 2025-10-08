@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Builders\Task\DTOs\FilterDataInput;
+use App\Interfaces\Repository\Task\DTOs\DeleteDataInput;
 use app\Interfaces\Repository\Task\DTOs\IndexDataInput;
 use App\Interfaces\Repository\Task\DTOs\StoreDataInput;
 use App\Interfaces\Repository\Task\DTOs\TaskDTO;
@@ -34,10 +35,15 @@ class TaskRepository implements TaskInterface
 
     public function update(TaskDTO $taskDTO): TaskDTO
     {
-        $model = Task::query()
+        Task::query()
             ->findOrFail($taskDTO->id)
             ->update($taskDTO->toArray());
 
-        return TaskDTO::from($model);
+        return TaskDTO::from(Task::query()->findOrFail($taskDTO->id));
+    }
+
+    public function destroy(DeleteDataInput $taskDTO): bool
+    {
+        return Task::query()->findOrFail($taskDTO->id)->delete();
     }
 }
