@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Builders\Lot\TaskBuilder;
 use App\Enums\Status;
+use App\Traits\HasCustomBuilder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -11,9 +13,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $title - Название
  * @property string|null $description - Описание
  * @property Status $status - Статус
+ *
+ * @method static TaskBuilder query()
  */
 class Task extends Model
 {
+    use HasCustomBuilder;
+
     protected $fillable = [
         'title',
         'description',
