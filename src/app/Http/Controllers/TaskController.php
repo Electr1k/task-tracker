@@ -6,9 +6,10 @@ use App\Http\Requests\Task\IndexRequest;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Http\Resources\TaskResource;
-use App\Models\Task;
-use App\UseCases\FetchTasks\DataInput as FetchTaskDataInput;
+use App\UseCases\FetchTasks\DataInput as FetchTasksDataInput;
 use App\UseCases\FetchTasks\Handler as FetchTasksHandler;
+use App\UseCases\FetchTask\DataInput as FetchTaskDataInput;
+use App\UseCases\FetchTask\Handler as FetchTaskHandler;
 use App\UseCases\StoreTask\DataInput as StoreTaskDataInput;
 use App\UseCases\StoreTask\Handler as StoreTaskHandler;
 use App\UseCases\UpdateTask\DataInput as UpdateTaskDataInput;
@@ -22,14 +23,15 @@ class TaskController extends Controller
 {
 
     public function index(FetchTasksHandler $handler, IndexRequest $request): JsonResource {
-        $collection = $handler->handle(FetchTaskDataInput::from($request->validated()));
+        $collection = $handler->handle(FetchTasksDataInput::from($request->validated()));
 
         return TaskResource::collection($collection);
     }
 
-    public function show(Task $task): TaskResource
+    public function show(int $id, FetchTaskHandler $handler): TaskResource
     {
-        return new TaskResource($task);
+        $dto = $handler->handle(new FetchTaskDataInput($id));
+        return new TaskResource($dto);
     }
 
     public function store(StoreTaskHandler $handler, StoreRequest $request): \Illuminate\Http\JsonResponse

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Builders\Task\DTOs\FilterDataInput;
 use App\Interfaces\Repository\Task\DTOs\DeleteDataInput;
 use app\Interfaces\Repository\Task\DTOs\IndexDataInput;
+use App\Interfaces\Repository\Task\DTOs\ShowDataInput;
 use App\Interfaces\Repository\Task\DTOs\StoreDataInput;
 use App\Interfaces\Repository\Task\DTOs\TaskDTO;
 use APP\Interfaces\Repository\Task\TaskInterface;
@@ -24,6 +25,14 @@ class TaskRepository implements TaskInterface
             ->get();
 
         return TaskDTO::collect($collection);
+    }
+
+    public function show(ShowDataInput $dataInput): TaskDTO
+    {
+        $model = Task::query()
+            ->findOrFail($dataInput->id);
+
+        return TaskDTO::from($model);
     }
 
     public function store(StoreDataInput $taskDTO): TaskDTO
