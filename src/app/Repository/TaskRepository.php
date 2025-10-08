@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Builders\Task\DTOs\FilterDataInput;
 use app\Interfaces\Repository\Task\DTOs\IndexDataInput;
+use App\Interfaces\Repository\Task\DTOs\StoreDataInput;
 use App\Interfaces\Repository\Task\DTOs\TaskDTO;
 use APP\Interfaces\Repository\Task\TaskInterface;
 use App\Models\Task;
@@ -24,7 +25,7 @@ class TaskRepository implements TaskInterface
         return TaskDTO::collect($collection);
     }
 
-    public function store(TaskDTO $taskDTO): TaskDTO
+    public function store(StoreDataInput $taskDTO): TaskDTO
     {
         $model = Task::query()->create($taskDTO->toArray());
 
