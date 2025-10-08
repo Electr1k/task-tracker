@@ -51,7 +51,6 @@ class TaskController extends Controller
     public function destroy(int $id, DestroyTaskHandler $handler): \Illuminate\Http\JsonResponse
     {
         $isSuccess = $handler->handle(new DestroyTaskDataInput($id));
-
-        return response()->json(Response::HTTP_NO_CONTENT);
+        return response()->json([],Response::HTTP_NO_CONTENT);
     }
 }
