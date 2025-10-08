@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Repository;
+
+use App\Builders\Task\DTOs\FilterDataInput;
+use app\Interfaces\Repository\Task\DTOs\IndexDataInput;
+use App\Interfaces\Repository\Task\DTOs\TaskDTO;
+use APP\Interfaces\Repository\Task\TaskInterface;
+use App\Models\Task;
+use Illuminate\Support\Collection;
+
+/**
+ * Репозиторий заданий (Mysql)
+ */
+class TaskRepository implements TaskInterface
+{
+
+    public function index(IndexDataInput $dataInput): Collection
+    {
+        $collection = Task::query()
+            ->filter(FilterDataInput::from($dataInput))
+            ->get();
+
+        return TaskDTO::collect($collection);
+    }
+
+    public function store(TaskDTO $taskDTO): TaskDTO
+    {
+        $model = Task::query()->create($taskDTO->toArray());
+
+        return TaskDTO::from($model);
+    }
+
+    public function update(TaskDTO $taskDTO): TaskDTO
+    {
+        $model = Task::query()
+            ->findOrFail($taskDTO->id)
+            ->update($taskDTO->toArray());
+
+        return TaskDTO::from($model);
+    }
+}

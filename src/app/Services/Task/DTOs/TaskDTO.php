@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interfaces\Repository\Task\DTOs;
+namespace App\Services\Task\DTOs;
 
 use App\Enums\Status;
 use Spatie\LaravelData\Data;
